@@ -7,6 +7,7 @@ import {
     StalcraftAppClient,
     StalcraftUserClient
 } from "./client";
+import {Sort} from "./model";
 
 test('test getListOfRegions', () => {
     return getListOfRegions(DEMO_URL).then((data) => {
@@ -70,5 +71,11 @@ test('test getClanMembers', async () => {
 test('test getListOfFriends', async () => {
     return user.getListOfFriends("RU", "Test-1").then((data) => {
         expect(data.length).toBeGreaterThan(0);
+    });
+});
+
+test('test getAuctionLots.Sort', async () => {
+    return user.getAuctionLots("RU", "3grl", {sort: Sort.BUYOUT_PRICE}).then((data) => {
+        expect(data.lots.length).toBeGreaterThan(0);
     });
 });

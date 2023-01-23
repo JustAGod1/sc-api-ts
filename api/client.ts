@@ -8,7 +8,7 @@ import {
     Order,
     Region,
     Sort
-} from './data';
+} from './model';
 
 export const DEMO_URL = 'https://dapi.stalcraft.net';
 export const BASE_URL = 'https://eapi.stalcraft.net';

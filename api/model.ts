@@ -1,20 +1,20 @@
-export class Region {
+export interface Region {
     id: string;
     name: string;
 }
 
-export class PriceEntry {
+export interface PriceEntry {
     amount: number;
     price: number;
     time: Date;
 }
 
-export class AuctionPriceHistory {
+export interface AuctionPriceHistory {
     total: number;
     prices: PriceEntry[];
 }
 
-export class Lot {
+export interface Lot {
     itemId: string;
     startPrice: number;
     currentPrice?: number;
@@ -25,23 +25,23 @@ export class Lot {
 
 }
 
-export class AuctionLots {
+export interface AuctionLots {
     total: number;
     lots: Lot[];
 }
 
-export class CharacterMetaInfo {
+export interface CharacterMetaInfo {
     id: string;
     name: string;
     creationTime: Date;
 }
 
-export class CharacterInfo {
+export interface CharacterInfo {
     information: CharacterMetaInfo;
     clan?: CharacterClanInfo;
 }
 
-export class ClanInfo {
+export interface ClanInfo {
     id: string;
     name: string;
     tag: string;
@@ -63,23 +63,23 @@ enum ClanRank {
     COLONEL = "COLONEL",
     LEADER = "LEADER"
 }
-export class ClanMember {
+export interface ClanMember {
     name: string;
     rank: ClanRank;
     joinTime: Date;
 }
 
-export class CharacterClanInfo {
+export interface CharacterClanInfo {
     info: ClanInfo;
     member: ClanMember;
 }
 
-export class ClansList {
+export interface ClansList {
     total: number;
     data: ClanInfo[];
 }
 
-export class EmissionInfo {
+export interface EmissionInfo {
     currentStart?: Date;
     previousStart?: Date;
     previousEnd?: Date;
