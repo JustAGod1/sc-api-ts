@@ -1,0 +1,23 @@
+{
+  "name": "sc-api",
+  "version": "0.1.0",
+  "description": "Stalcraft API implementation in TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "stalcraft",
+    "api",
+    "api-client"
+  ],
+  "author": "JustAGod",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "typescript": "^4.9.4"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.3.1",
+    "ts-jest": "^29.0.5"
+  }
+}
