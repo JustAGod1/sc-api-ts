@@ -1,5 +1,5 @@
 {
-  "name": "sc-api",
+  "name": "stalcraft-api",
   "version": "0.1.0",
   "description": "Stalcraft API implementation in TypeScript",
   "main": "index.js",
