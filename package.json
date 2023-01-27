@@ -1,6 +1,6 @@
 {
   "name": "stalcraft-api",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Stalcraft API implementation in TypeScript",
   "main": "src/index.js",
   "types": "src/index.d.ts",

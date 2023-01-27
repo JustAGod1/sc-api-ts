@@ -6,7 +6,7 @@ export interface Region {
 export interface PriceEntry {
     amount: number;
     price: number;
-    time: Date;
+    time: string;
 }
 
 export interface AuctionPriceHistory {
@@ -19,8 +19,8 @@ export interface Lot {
     startPrice: number;
     currentPrice?: number;
     buyoutPrice: number;
-    startTime: Date;
-    endTime: Date;
+    startTime: string;
+    endTime: string;
     additional: object
 
 }
@@ -33,7 +33,7 @@ export interface AuctionLots {
 export interface CharacterMetaInfo {
     id: string;
     name: string;
-    creationTime: Date;
+    creationTime: string;
 }
 
 export interface CharacterInfo {
@@ -47,7 +47,7 @@ export interface ClanInfo {
     tag: string;
     level: number;
     levelPoints: number;
-    registrationTime: Date;
+    registrationTime: string;
     alliance?: string;
     description: string;
     leader: string
@@ -66,7 +66,7 @@ enum ClanRank {
 export interface ClanMember {
     name: string;
     rank: ClanRank;
-    joinTime: Date;
+    joinTime: string;
 }
 
 export interface CharacterClanInfo {
@@ -80,9 +80,9 @@ export interface ClansList {
 }
 
 export interface EmissionInfo {
-    currentStart?: Date;
-    previousStart?: Date;
-    previousEnd?: Date;
+    currentStart?: string;
+    previousStart?: string;
+    previousEnd?: string;
 }
 
 export enum Sort {
