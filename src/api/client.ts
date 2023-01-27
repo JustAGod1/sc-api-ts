@@ -52,7 +52,7 @@ class StalcraftClient {
 }
 
 function into(obj: any) : {[key: string] : string}{
-    let result = {}
+    let result = {} as any
     for (let name of Object.getOwnPropertyNames(obj)) {
         result[name] = obj[name].toString()
     }

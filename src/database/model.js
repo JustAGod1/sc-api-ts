@@ -1,0 +1,30 @@
+"use strict";
+exports.__esModule = true;
+exports.BindState = exports.InfoColor = void 0;
+var InfoColor;
+(function (InfoColor) {
+    InfoColor["DEFAULT"] = "DEFAULT";
+    InfoColor["QUEST_ITEM"] = "QUEST_ITEM";
+    InfoColor["RANK_NEWBIE"] = "RANK_NEWBIE";
+    InfoColor["RANK_STALKER"] = "RANK_STALKER";
+    InfoColor["RANK_VETERAN"] = "RANK_VETERAN";
+    InfoColor["RANK_MASTER"] = "RANK_MASTER";
+    InfoColor["RANK_LEGEND"] = "RANK_LEGEND";
+    InfoColor["ART_QUALITY_UNCOMMON"] = "ART_QUALITY_UNCOMMON";
+    InfoColor["ART_QUALITY_SPECIAL"] = "ART_QUALITY_SPECIAL";
+    InfoColor["ART_QUALITY_RARE"] = "ART_QUALITY_RARE";
+    InfoColor["ART_QUALITY_EXCLUSIVE"] = "ART_QUALITY_EXCLUSIVE";
+    InfoColor["ART_QUALITY_LEGENDARY"] = "ART_QUALITY_LEGENDARY";
+    InfoColor["ART_QUALITY_UNIQUE"] = "ART_QUALITY_UNIQUE";
+})(InfoColor = exports.InfoColor || (exports.InfoColor = {}));
+var BindState;
+(function (BindState) {
+    BindState["NONE"] = "NONE";
+    BindState["NON_DROP"] = "NON_DROP";
+    BindState["PERSONAL_ON_USE"] = "PERSONAL_ON_USE";
+    BindState["PERSONAL_ON_GET"] = "PERSONAL_ON_GET";
+    BindState["PERSONAL"] = "PERSONAL";
+    BindState["PERSONAL_UNTIL"] = "PERSONAL_UNTIL";
+    BindState["PERSONAL_DROP_ON_GET"] = "PERSONAL_DROP_ON_GET";
+    BindState["PERSONAL_DROP"] = "PERSONAL_DROP";
+})(BindState = exports.BindState || (exports.BindState = {}));
