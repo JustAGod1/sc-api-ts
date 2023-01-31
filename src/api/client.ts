@@ -22,15 +22,44 @@ export async function getListOfRegions(url: string) : Promise<Region[]> {
 }
 
 class StalcraftClient {
-    private readonly token: string;
+    private cachedToken: string;
+    private tokenFetcher?: () => Promise<string>;
     private readonly baseUrl: string;
 
-    constructor(token: string, baseUrl: string) {
-        this.token = token;
+    constructor(token: string | (() => Promise<string>), baseUrl: string) {
+        if (typeof token === 'function') {
+            this.tokenFetcher = token;
+        } else {
+            this.cachedToken = token;
+        }
         this.baseUrl = baseUrl;
     }
 
+
+    map_response(response: Response) {
+        if (response.status === 200) {
+            return response
+        } else {
+            throw new Error(response.statusText);
+        }
+    }
     async request(path: string, args: { [key: string]: string}) {
+        if (!this.cachedToken) {
+            this.cachedToken = await this.tokenFetcher!()
+        }
+        let first = await this.doRequest(path, args)
+        if (first.status === 200) {
+            return first
+        } else if (first.status === 401) {
+            if (this.tokenFetcher) {
+                this.cachedToken = await this.tokenFetcher()
+            }
+            return await this.doRequest(path, args).then(this.map_response)
+        } else {
+            this.map_response(first)
+        }
+    }
+    async doRequest(path: string, args: { [key: string]: string}) {
         let url = new URL(this.baseUrl)
         url.pathname = path
         for (let name of Object.getOwnPropertyNames(args)) {
@@ -39,13 +68,7 @@ class StalcraftClient {
 
         return await fetch(url.toString(), {
             headers: {
-                'Authorization': 'Bearer ' + this.token
-            }
-        }).then(response => {
-            if (response.status === 200) {
-                return response
-            } else {
-                throw new Error(response.statusText);
+                'Authorization': 'Bearer ' + this.cachedToken
             }
         })
     }
@@ -60,8 +83,27 @@ function into(obj: any) : {[key: string] : string}{
 }
 
 export class StalcraftAppClient extends StalcraftClient {
-    constructor(url: string = BASE_URL, token: string) {
+    constructor(url: string = BASE_URL, token: string | (() => Promise<string>)) {
         super(token, url)
+    }
+
+    public static fromSecret(clientId: string, clientSecret: string, url: string = BASE_URL) {
+        return new StalcraftAppClient(url, async () => {
+            let response = await fetch( 'https://exbo.net/oauth/token', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    client_id: clientId,
+                    client_secret: clientSecret,
+                    grant_type: 'client_credentials',
+                    scope: ''
+                })
+            })
+            let json = await response.json()
+            return json.access_token
+        })
     }
 
     public async getAuctionPriceHistory(regionId: string, itemId: string, parameters: {offset? : number; limit?: number} = {}) : Promise<AuctionPriceHistory> {

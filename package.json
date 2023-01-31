@@ -1,12 +1,12 @@
 {
   "name": "stalcraft-api",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Stalcraft API implementation in TypeScript",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest"
+    "test": "jest --setupFiles dotenv/config"
   },
   "keywords": [
     "stalcraft",
@@ -21,6 +21,7 @@
     "typescript": "^4.9.4"
   },
   "dependencies": {
-    "buffer": "^6.0.3"
+    "buffer": "^6.0.3",
+    "dotenv": "^16.0.3"
   }
 }

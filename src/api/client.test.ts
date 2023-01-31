@@ -79,3 +79,17 @@ test('test getAuctionLots.Sort', async () => {
         expect(data.lots.length).toBeGreaterThan(0);
     });
 });
+
+let clientId = process.env.CLIENT_ID;
+let clientSecret = process.env.CLIENT_SECRET;
+
+if (clientId && clientSecret) {
+    test('test token fetcher', async () => {
+        let client = StalcraftAppClient.fromSecret(clientId, clientSecret);
+
+        return client.getAuctionLots("RU", "3grl").then((data) => {
+            console.log(data)
+            expect(data.lots.length).toBeGreaterThan(0);
+        });
+    });
+}

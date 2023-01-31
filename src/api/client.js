@@ -70,10 +70,58 @@ function getListOfRegions(url) {
 exports.getListOfRegions = getListOfRegions;
 var StalcraftClient = /** @class */ (function () {
     function StalcraftClient(token, baseUrl) {
-        this.token = token;
+        if (typeof token === 'function') {
+            this.tokenFetcher = token;
+        }
+        else {
+            this.cachedToken = token;
+        }
         this.baseUrl = baseUrl;
     }
+    StalcraftClient.prototype.map_response = function (response) {
+        if (response.status === 200) {
+            return response;
+        }
+        else {
+            throw new Error(response.statusText);
+        }
+    };
     StalcraftClient.prototype.request = function (path, args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, first, _b;
+            return __generator(this, function (_c) {
+                switch (_c.label) {
+                    case 0:
+                        if (!!this.cachedToken) return [3 /*break*/, 2];
+                        _a = this;
+                        return [4 /*yield*/, this.tokenFetcher()];
+                    case 1:
+                        _a.cachedToken = _c.sent();
+                        _c.label = 2;
+                    case 2: return [4 /*yield*/, this.doRequest(path, args)];
+                    case 3:
+                        first = _c.sent();
+                        if (!(first.status === 200)) return [3 /*break*/, 4];
+                        return [2 /*return*/, first];
+                    case 4:
+                        if (!(first.status === 401)) return [3 /*break*/, 8];
+                        if (!this.tokenFetcher) return [3 /*break*/, 6];
+                        _b = this;
+                        return [4 /*yield*/, this.tokenFetcher()];
+                    case 5:
+                        _b.cachedToken = _c.sent();
+                        _c.label = 6;
+                    case 6: return [4 /*yield*/, this.doRequest(path, args).then(this.map_response)];
+                    case 7: return [2 /*return*/, _c.sent()];
+                    case 8:
+                        this.map_response(first);
+                        _c.label = 9;
+                    case 9: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    StalcraftClient.prototype.doRequest = function (path, args) {
         return __awaiter(this, void 0, void 0, function () {
             var url, _i, _a, name_1;
             return __generator(this, function (_b) {
@@ -87,14 +135,7 @@ var StalcraftClient = /** @class */ (function () {
                         }
                         return [4 /*yield*/, fetch(url.toString(), {
                                 headers: {
-                                    'Authorization': 'Bearer ' + this.token
-                                }
-                            }).then(function (response) {
-                                if (response.status === 200) {
-                                    return response;
-                                }
-                                else {
-                                    throw new Error(response.statusText);
+                                    'Authorization': 'Bearer ' + this.cachedToken
                                 }
                             })];
                     case 1: return [2 /*return*/, _b.sent()];
@@ -118,6 +159,35 @@ var StalcraftAppClient = /** @class */ (function (_super) {
         if (url === void 0) { url = exports.BASE_URL; }
         return _super.call(this, token, url) || this;
     }
+    StalcraftAppClient.fromSecret = function (clientId, clientSecret, url) {
+        var _this = this;
+        if (url === void 0) { url = exports.BASE_URL; }
+        return new StalcraftAppClient(url, function () { return __awaiter(_this, void 0, void 0, function () {
+            var response, json;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, fetch('https://exbo.net/oauth/token', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                            body: new URLSearchParams({
+                                client_id: clientId,
+                                client_secret: clientSecret,
+                                grant_type: 'client_credentials',
+                                scope: ''
+                            })
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [4 /*yield*/, response.json()];
+                    case 2:
+                        json = _a.sent();
+                        return [2 /*return*/, json.access_token];
+                }
+            });
+        }); });
+    };
     StalcraftAppClient.prototype.getAuctionPriceHistory = function (regionId, itemId, parameters) {
         if (parameters === void 0) { parameters = {}; }
         return __awaiter(this, void 0, void 0, function () {

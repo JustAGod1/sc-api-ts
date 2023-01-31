@@ -132,3 +132,17 @@ var user = new client_1.StalcraftUserClient(client_1.DEMO_URL, client_1.DEMO_USE
             })];
     });
 }); });
+var clientId = process.env.CLIENT_ID;
+var clientSecret = process.env.CLIENT_SECRET;
+if (clientId && clientSecret) {
+    (0, globals_1.test)('test token fetcher', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var client;
+        return __generator(this, function (_a) {
+            client = client_1.StalcraftAppClient.fromSecret(clientId, clientSecret);
+            return [2 /*return*/, client.getAuctionLots("RU", "3grl").then(function (data) {
+                    console.log(data);
+                    (0, globals_1.expect)(data.lots.length).toBeGreaterThan(0);
+                })];
+        });
+    }); });
+}

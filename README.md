@@ -35,7 +35,19 @@ return database.getItemEntries().then((data) => {
 ```typescript
 import { StalcraftAppClient } from 'stalcraft-api';
 
-// Create APP client
+// Create APP client from secret
+let client = StalcraftAppClient.fromSecret(clientId, clientSecret);
+
+// Get all auction lots for item with id 3grl in RU region
+client.getAuctionLots("RU", "3grl").then((data) => {
+    console.log(data)
+});
+```
+
+```typescript
+import { StalcraftAppClient } from 'stalcraft-api';
+
+// Create APP client from token
 let app = new StalcraftAppClient(DEMO_URL, DEMO_APP_TOKEN);
 // Get all auction lots for item with id 3grl in RU region
 app.getAuctionLots("RU", "3grl").then((data) => {
